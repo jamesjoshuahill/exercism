@@ -1,12 +1,21 @@
-class Robot
-  WORD_CHARACTERS = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten.push('_')
-  DIGITS = ('0'..'9').to_a
+module RobotNameGenerator
+  WORD_CHARACTERS = [*'a'..'z', *'A'..'Z', '_']
+  DIGITS = [*'0'..'9']
+  private_constant :WORD_CHARACTERS, :DIGITS
 
-  def name
-    @name ||= (WORD_CHARACTERS.sample(2) + DIGITS.sample(3)).join
+  def self.generate_name
+    (WORD_CHARACTERS.sample(2) + DIGITS.sample(3)).join
+  end
+end
+
+class Robot
+  attr_reader :name
+
+  def initialize
+    reset
   end
 
   def reset
-    @name = nil
+    @name = RobotNameGenerator.generate_name
   end
 end
