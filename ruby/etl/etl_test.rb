@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './etl'
+require_relative 'etl'
 
 class TransformTest < MiniTest::Unit::TestCase
 

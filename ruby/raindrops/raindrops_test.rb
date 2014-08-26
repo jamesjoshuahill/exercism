@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './raindrops'
+require_relative 'raindrops'
 
 class RaindropsTest < MiniTest::Unit::TestCase
 

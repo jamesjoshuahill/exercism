@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './anagram'
+require_relative 'anagram'
 
 class AnagramTest < MiniTest::Unit::TestCase
 

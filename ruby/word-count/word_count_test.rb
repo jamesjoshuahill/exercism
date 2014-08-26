@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './phrase'
+require_relative 'phrase'
 
 class PhraseTest < MiniTest::Unit::TestCase
 

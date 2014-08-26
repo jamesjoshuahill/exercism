@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './grains'
+require_relative 'grains'
 
 class GrainsTest < MiniTest::Unit::TestCase
 

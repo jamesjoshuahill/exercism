@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../hamming'
+require_relative 'hamming'
 
 class HammingTest < MiniTest::Unit::TestCase
   def test_no_difference_between_identical_strands

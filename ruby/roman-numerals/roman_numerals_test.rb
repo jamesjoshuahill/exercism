@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './roman'
+require_relative 'roman'
 
 class RomanTest < MiniTest::Unit::TestCase
 

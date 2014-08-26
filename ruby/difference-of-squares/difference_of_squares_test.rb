@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './squares'
+require_relative 'squares'
 
 class SquaresTest < MiniTest::Unit::TestCase
 

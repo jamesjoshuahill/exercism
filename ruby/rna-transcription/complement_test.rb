@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './complement'
+require_relative 'complement'
 
 class ComplementTest < MiniTest::Unit::TestCase
   def test_rna_complement_of_cytosine_is_guanine

@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'date'
 require 'time'
-require './gigasecond'
+require_relative 'gigasecond'
 
 class GigasecondTest < MiniTest::Unit::TestCase
 
