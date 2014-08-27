@@ -9,7 +9,7 @@ class FoodChainSong
   end
 
   def verses(from, to)
-    [*from..to].each_with_object("") do |verse_number, lyrics|
+    (from..to).each_with_object("") do |verse_number, lyrics|
       lyrics << verse(verse_number) + "\n"
     end
   end
@@ -20,10 +20,10 @@ class FoodChainSong
 
   private
 
-  def chain
+  def food_chain
     {
       fly: "I don't know why she swallowed the fly. Perhaps she'll die.\n",
-      spider: "wriggled and jiggled and tickled inside her",
+      spider: "It wriggled and jiggled and tickled inside her.\n",
       bird: "How absurd to swallow a bird!\n",
       cat: "Imagine that, to swallow a cat!\n",
       dog: "What a hog, to swallow a dog!\n",
@@ -34,21 +34,15 @@ class FoodChainSong
   end
 
   def last_verse_number
-    chain.size
+    food_chain.length
   end
 
   def animal(verse_number)
-    chain.keys[verse_number - 1]
-  end
-
-  def swallow_animal(verse_number)
-    animal = animal(verse_number)
-    animal == :spider ? "#{animal} that #{chain[animal]}" : animal
+    food_chain.keys[verse_number - 1]
   end
 
   def action(verse_number)
-    animal = animal(verse_number)
-    animal == :spider ? "It #{chain[animal]}.\n" : chain[animal]
+    food_chain[animal(verse_number)]
   end
 
   def intro(verse_number)
@@ -66,6 +60,11 @@ class FoodChainSong
   end
 
   def swallow_line(verse_number)
-    "She swallowed the #{animal(verse_number)} to catch the #{swallow_animal(verse_number - 1)}.\n"
+    line = "She swallowed the #{animal(verse_number)} to catch the #{animal(verse_number - 1)}.\n"
+    if animal(verse_number - 1) == :spider
+      line.sub!("spider.\n", "spider #{action(verse_number - 1)}".sub("It", "that"))
+    else
+      line
+    end
   end
 end
