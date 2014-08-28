@@ -10,26 +10,6 @@ class FoodChainVerse
   def animal_with_remark
     @animal_with_remark || @animal + "."
   end
-
-  def intro
-    "I know an old lady who swallowed a #{animal}.\n#{remark}\n"
-  end
-
-  def reason(previous_verse)
-    "She swallowed the #{animal} to catch the #{previous_verse.animal_with_remark}\n"
-  end
-
-  def reasons(previous_verses)
-    reasons = []
-    previous_verses.push(self).each_cons(2) do |previous_verse, verse|
-      reasons << verse.reason(previous_verse)
-    end
-    reasons.reverse.join
-  end
-
-  def chorus(previous_verses)
-    reasons(previous_verses) + previous_verses.first.remark + "\n"
-  end
 end
 
 class FoodChainSong
@@ -48,18 +28,12 @@ class FoodChainSong
   end
 
   def verse(number)
-    verse = @verses[number - 1]
-    case number
-    when 1, @verses.length
-      verse.intro
-    else
-      verse.intro + verse.chorus(previous_verses(number))
-    end
+    lyrics(@verses[number - 1])
   end
 
   def verses(from, to)
-    (from..to).each_with_object("") do |number, lyrics|
-      lyrics << verse(number) + "\n"
+    (from..to).each_with_object("") do |number, verses|
+      verses << verse(number) + "\n"
     end
   end
 
@@ -69,7 +43,36 @@ class FoodChainSong
 
   private
 
-  def previous_verses(number)
-    @verses[0...number - 1]
+  def first_or_last?(verse)
+    verse == @verses.first || verse == @verses.last
+  end
+
+  def verses_upto(verse)
+    @verses[0..@verses.index(verse)]
+  end
+
+  def intro(verse)
+    "I know an old lady who swallowed a #{verse.animal}.\n#{verse.remark}\n"
+  end
+
+  def reason(verse, previous_verse)
+    "She swallowed the #{verse.animal} to catch the #{previous_verse.animal_with_remark}\n"
+  end
+
+  def reasons(verse)
+    reasons = ""
+    verses_upto(verse).each_cons(2) do |previous_verse, verse|
+      reasons.prepend(reason(verse, previous_verse))
+    end
+    reasons
+  end
+
+  def chorus(verse)
+    reasons(verse) + @verses.first.remark + "\n"
+  end
+
+  def lyrics(verse)
+    return intro(verse) if first_or_last?(verse)
+    intro(verse) + chorus(verse)
   end
 end
