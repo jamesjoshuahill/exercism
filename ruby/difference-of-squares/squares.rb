@@ -1,14 +1,14 @@
 class Squares
   def initialize(number)
-    @numbers = (1..number)
+    @range = (1..number)
   end
 
   def square_of_sums
-    @numbers.inject(:+)**2
+    @square_of_sums ||= @range.inject(:+)**2
   end
 
   def sum_of_squares
-    @numbers.map { |number| number**2 }.inject(:+)
+    @sum_of_squares ||= @range.inject(0) { |sum, number| sum + number**2 }
   end
 
   def difference
