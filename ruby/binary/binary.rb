@@ -4,21 +4,16 @@ class Binary
   end
 
   def to_decimal
-    @decimal ||= convert_to_decimal
+    return 0 unless valid?
+    @string.chars.inject(0) do |sum, char|
+      sum *= 2
+      sum + char.to_i
+    end
   end
 
   private
 
-  def convert_to_decimal
-    return 0 unless valid?
-    sum = 0
-    @string.chars.reverse.each_with_index do |digit, index|
-      sum += digit.to_i * 2**index
-    end
-    sum
-  end
-
   def valid?
-    @valid ||= @string.match(/\A[01]+\z/)
+    @string =~ /\A[01]+\z/
   end
 end
