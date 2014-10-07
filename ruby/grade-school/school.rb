@@ -1,17 +1,17 @@
 class School
   def initialize
-    @grades = {}
+    @grades = Hash.new { |hash, grade| hash[grade] = [] }
   end
 
-  def to_hash
-    @grades.sort_by { |grade, _names| grade }.to_h
-  end
-
-  def add(name, grade)
-    grade(grade).push(name).sort!
+  def add(name, number)
+    grade(number).push(name).sort!
   end
 
   def grade(number)
-    @grades[number] || @grades[number] = []
+    @grades[number]
+  end
+
+  def to_hash
+    @grades.sort.to_h
   end
 end
