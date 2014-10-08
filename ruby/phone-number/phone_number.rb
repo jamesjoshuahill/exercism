@@ -1,10 +1,10 @@
 class PhoneNumber
+  attr_reader :number
+
+  INVALID = "0000000000"
+
   def initialize(number)
     @number = parse(number)
-  end
-
-  def number
-    @number || "0000000000"
   end
 
   def area_code
@@ -18,16 +18,15 @@ class PhoneNumber
   private
 
   def parse(number)
-    return false if number.match(/[a-z]/i)
+    return INVALID if number.match(/[a-z]/i)
     number = number.scan(/\d/).join
 
-    case number.length
-    when 10
+    if number.length == 10
       number
-    when 11
-      number.start_with?("1") ? number[1..10] : false
+    elsif number.length == 11 && number.start_with?("1")
+      number[1..10]
     else
-      false
+      INVALID
     end
   end
 end
