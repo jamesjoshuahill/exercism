@@ -1,11 +1,7 @@
 class BeerSong
   def verse(number)
-    case number
-    when 0
-      "No more bottles of beer on the wall, #{bottles(number)}.\nGo to the store and buy some more, #{bottles(99)} on the wall.\n"
-    else
-      "#{bottles(number)} on the wall, #{bottles(number)}.\nTake #{pronoun(number)} down and pass it around, #{bottles(number - 1)} on the wall.\n"
-    end
+    "#{bottles(number, :sentence_case)} on the wall, #{bottles(number)}.\n" <<
+    "#{action(number)}, #{bottles(number - 1)} on the wall.\n"
   end
 
   def verses(from, to)
@@ -18,19 +14,34 @@ class BeerSong
 
   private
 
-  def bottles(number)
-    unit = case number
+  def bottle_number(number, format = nil)
+    case number
+    when -1
+      99
     when 0
-      "no more bottles"
-    when 1
-      "1 bottle"
+      format == :sentence_case ? "No more" : "no more"
     else
-      "#{number} bottles"
+      number
     end
-    "#{unit} of beer"
+  end
+
+  def bottle_unit(number)
+    number == 1 ? "bottle" : "bottles"
+  end
+
+  def bottles(number, format = nil)
+    "#{bottle_number(number, format)} #{bottle_unit(number)} of beer"
   end
 
   def pronoun(number)
     number == 1 ? "it" : "one"
+  end
+
+  def action(number)
+    if number.zero?
+      "Go to the store and buy some more"
+    else
+      "Take #{pronoun(number)} down and pass it around"
+    end
   end
 end
