@@ -1,6 +1,6 @@
 class SpaceAge
   EARTH_YEAR = 31_557_600
-  PLANET_YEAR_FACTOR = {
+  PLANET_YEAR_RATIOS = {
     earth: 1,
     mercury: 0.2408467,
     venus: 0.61519726,
@@ -17,18 +17,9 @@ class SpaceAge
     @seconds = seconds
   end
 
-  def method_missing(method_name)
-    planet = parse_method(method_name)
-    years_on(planet) if PLANET_YEAR_FACTOR.key?(planet)
-  end
-
-  private
-
-  def parse_method(method_name)
-    method_name.to_s.split("_").last.to_sym
-  end
-
-  def years_on(planet)
-    seconds.fdiv(EARTH_YEAR * PLANET_YEAR_FACTOR[planet]).round(2)
+  PLANET_YEAR_RATIOS.each do |planet, ratio|
+    define_method("on_#{planet}") do
+      seconds.fdiv(EARTH_YEAR * ratio).round(2)
+    end
   end
 end
