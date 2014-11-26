@@ -6,16 +6,23 @@ class Bst
   end
 
   def insert(value)
-    if value <= data
-      @left ? @left.insert(value) : @left = Bst.new(value)
-    else
-      @right ? @right.insert(value) : @right = Bst.new(value)
-    end
+    child = value <= data ? :left : :right
+    insert_node(child, value)
   end
 
-  def each
-    left.each { |value| yield value } if left
-    yield data
-    right.each { |value| yield value } if right
+  def each(&block)
+    left.each(&block) if left
+    block.call(data)
+    right.each(&block) if right
+  end
+
+  private
+
+  def insert_node(child, value)
+    if send(child)
+      send(child).insert(value)
+    else
+      instance_variable_set("@#{child}", self.class.new(value))
+    end
   end
 end
