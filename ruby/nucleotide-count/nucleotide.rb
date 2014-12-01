@@ -25,6 +25,6 @@ class Nucleotide
   attr_reader :sequence
 
   def valid?
-    BASES | sequence == BASES
+    sequence.all? { |base| BASES.include?(member) }
   end
 end
