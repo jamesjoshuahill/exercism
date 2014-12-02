@@ -1,4 +1,6 @@
 class Hexadecimal
+  HEXCHARS = ('0'..'9').to_a + ('a'..'f').to_a
+
   def initialize(hexstring)
     @hexstring = hexstring
   end
@@ -16,11 +18,10 @@ class Hexadecimal
 
   def value(char)
     return 0 if char.nil?
-    return char.to_i if char =~ /[0-9]/
-    char.ord - 87
+    HEXCHARS.index(char)
   end
 
   def valid?
-    hexstring.each_char.all? { |char| char =~ /[0-9a-f]/ }
+    @valid ||= hexstring.each_char.all? { |char| HEXCHARS.include?(char) }
   end
 end
