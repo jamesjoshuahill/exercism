@@ -7,16 +7,20 @@ func IsLeapYear(n int) bool {
 
 type Year int
 
+func (year Year) isMultipleOf(divisor int) bool {
+	return int(year)%divisor == 0
+}
+
 func (year Year) isFourthYear() bool {
-	return int(year)%4 == 0
+	return year.isMultipleOf(4)
 }
 
 func (year Year) isCentury() bool {
-	return int(year)%100 == 0
+	return year.isMultipleOf(100)
 }
 
 func (year Year) isQuadricentennial() bool {
-	return int(year)%400 == 0
+	return year.isMultipleOf(400)
 }
 
 func (year Year) isLeapYear() bool {
