@@ -24,5 +24,5 @@ func (year Year) isQuadricentennial() bool {
 }
 
 func (year Year) isLeapYear() bool {
-	return year.isFourthYear() && (!year.isCentury() || year.isQuadricentennial())
+	return year.isQuadricentennial() || (year.isFourthYear() && !year.isCentury())
 }
