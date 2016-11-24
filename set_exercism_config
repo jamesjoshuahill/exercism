@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if lpass status; then
+  api_key=$(lpass show 'Personal/Exercism API key' --notes)
+  exercism configure --key=$api_key --dir=$(pwd)
+fi
