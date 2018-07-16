@@ -3,4 +3,4 @@ build
 .gradle
 *.iml
 gradle*
-.exercism.json
+user.json

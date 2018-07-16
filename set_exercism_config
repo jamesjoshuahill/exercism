@@ -3,6 +3,6 @@
 set -eu
 
 if lpass status; then
-  api_key=$(lpass show 'Personal/Exercism API key' --notes)
-  exercism configure --key=$api_key --dir=$(pwd)
+  cli_token="$(lpass show 'Personal/Exercism CLI token' --notes)"
+  exercism configure --workspace="$PWD" --token "$cli_token"
 fi
