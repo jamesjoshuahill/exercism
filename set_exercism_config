@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -eu
-
-if lpass status; then
-  cli_token="$(lpass show 'Personal/Exercism CLI token' --notes)"
-  exercism configure --workspace="$PWD" --token "$cli_token"
-fi
