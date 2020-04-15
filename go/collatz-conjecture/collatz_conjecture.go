@@ -6,21 +6,18 @@ func CollatzConjecture(n int) (int, error) {
 	if n < 1 {
 		return -1, errors.New("n must be greater than zero")
 	}
-	if n == 1 {
-		return 0, nil
-	}
 
-	var next int
-	if n%2 == 0 {
-		next = n / 2
-	} else {
-		next = 3*n + 1
-	}
+	var count int
+	for {
+		if n == 1 {
+			return count, nil
+		}
 
-	steps, err := CollatzConjecture(next)
-	if err != nil {
-		return -1, err
+		if n%2 == 0 {
+			n = n / 2
+		} else {
+			n = 3*n + 1
+		}
+		count++
 	}
-
-	return 1 + steps, nil
 }
