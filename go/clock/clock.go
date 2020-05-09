@@ -2,33 +2,39 @@ package clock
 
 import "fmt"
 
-const TestVersion = 2
-
+// Clock represents a time without dates.
 type Clock struct {
-	hours   int
-	minutes int
+	hour, minute int
 }
 
-func Time(hours, minutes int) Clock {
-	if hours < 0 {
-		return Time(hours+24, minutes)
+// New returns a new Clock at hour:minute.
+func New(hour, minute int) Clock {
+	hour += minute / 60
+	minute %= 60
+	if minute < 0 {
+		minute += 60
+		hour -= 1
 	}
-	if hours >= 24 {
-		return Time(hours-24, minutes)
+
+	hour %= 24
+	if hour < 0 {
+		hour += 24
 	}
-	if minutes < 0 {
-		return Time(hours-1, minutes+60)
-	}
-	if minutes >= 60 {
-		return Time(hours+1, minutes-60)
-	}
-	return Clock{hours, minutes}
+
+	return Clock{hour: hour, minute: minute}
 }
 
+// String returns the time in the format "hh:mm".
 func (c Clock) String() string {
-	return fmt.Sprintf("%02d:%02d", c.hours, c.minutes)
+	return fmt.Sprintf("%02d:%02d", c.hour, c.minute)
 }
 
+// Add returns a clock at time + minutes.
 func (c Clock) Add(minutes int) Clock {
-	return Time(c.hours, c.minutes+minutes)
+	return New(c.hour, c.minute+minutes)
+}
+
+// Subtract returns a clock at time - minutes.
+func (c Clock) Subtract(minutes int) Clock {
+	return New(c.hour, c.minute-minutes)
 }
