@@ -2,18 +2,18 @@ package listops
 
 type IntList []int
 
-func (l IntList) Foldr(f func(item, accumulator int) int, initial int) int {
+func (l IntList) Foldr(f func(item, acc int) int, initial int) int {
 	a := initial
-	for i := l.Length(); i > 0; i-- {
-		a = f(l[i-1], a)
+	for i := l.Length() - 1; i >= 0; i-- {
+		a = f(l[i], a)
 	}
 	return a
 }
 
-func (l IntList) Foldl(f func(accumulator, item int) int, initial int) int {
+func (l IntList) Foldl(f func(acc, item int) int, initial int) int {
 	a := initial
-	for _, e := range l {
-		a = f(a, e)
+	for _, item := range l {
+		a = f(a, item)
 	}
 	return a
 }
@@ -21,9 +21,9 @@ func (l IntList) Foldl(f func(accumulator, item int) int, initial int) int {
 func (l IntList) Filter(f func(item int) bool) IntList {
 	n := make(IntList, l.Length())
 	var j int
-	for _, e := range l {
-		if f(e) {
-			n[j] = e
+	for _, item := range l {
+		if f(item) {
+			n[j] = item
 			j++
 		}
 	}
@@ -39,42 +39,39 @@ func (l IntList) Length() int {
 }
 
 func (l IntList) Map(f func(item int) int) IntList {
-	for i, e := range l {
-		l[i] = f(e)
+	for i, item := range l {
+		l[i] = f(item)
 	}
 	return l
 }
 
 func (l IntList) Reverse() IntList {
-	length := l.Length()
-	n := make(IntList, length)
-	var j int
-	for i := length; i > 0; i-- {
-		n[j] = l[i-1]
-		j++
+	for i, j := 0, l.Length()-1; i < j; i++ {
+		l[i], l[j] = l[j], l[i]
+		j--
 	}
-	return n
+	return l
 }
 
-func (l IntList) Append(other IntList) IntList {
-	return l.Concat([]IntList{other})
+func (l IntList) Append(list IntList) IntList {
+	return l.Concat([]IntList{list})
 }
 
 func (l IntList) Concat(lists []IntList) IntList {
 	c := l.Length()
-	for _, e := range lists {
-		c += e.Length()
+	for _, list := range lists {
+		c += list.Length()
 	}
 	n := make(IntList, c)
 
 	var j int
-	for _, e := range l {
-		n[j] = e
+	for _, item := range l {
+		n[j] = item
 		j++
 	}
-	for _, other := range lists {
-		for _, e := range other {
-			n[j] = e
+	for _, list := range lists {
+		for _, item := range list {
+			n[j] = item
 			j++
 		}
 	}

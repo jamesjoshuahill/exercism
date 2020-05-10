@@ -5,12 +5,10 @@ import (
 	"testing"
 )
 
-type binFunc func(x, y int) int
-
 var foldTestCases = []struct {
 	name     string
 	property string
-	fn       binFunc
+	fn       func(x, y int) int
 	initial  int
 	list     IntList
 	want     int
@@ -83,12 +81,10 @@ func TestFold(t *testing.T) {
 
 }
 
-type predFunc func(n int) bool
-
 var filterTestCases = []struct {
 	name     string
 	property string
-	fn       predFunc
+	fn       func(n int) bool
 	list     []int
 	want     []int
 }{
@@ -153,13 +149,11 @@ func TestLengthMethod(t *testing.T) {
 	}
 }
 
-type unaryFunc func(x int) int
-
 var mapTestCases = []struct {
 	name     string
 	property string
 	list     IntList
-	fn       unaryFunc
+	fn       func(x int) int
 	want     IntList
 }{
 	{
