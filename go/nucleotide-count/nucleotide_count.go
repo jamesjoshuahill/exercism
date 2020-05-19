@@ -12,14 +12,13 @@ type DNA string
 // Returns an error if d contains an invalid nucleotide.
 func (d DNA) Counts() (Histogram, error) {
 	h := Histogram{'A': 0, 'C': 0, 'G': 0, 'T': 0}
-	for _, r := range d {
-		switch r {
+	for _, n := range d {
+		switch n {
 		case 'A', 'C', 'G', 'T':
-			h[r]++
+			h[n]++
 		default:
-			return nil, fmt.Errorf("invalid nucleotide: %s", string(r))
+			return nil, fmt.Errorf("invalid nucleotide: %s", string(n))
 		}
-
 	}
 	return h, nil
 }
