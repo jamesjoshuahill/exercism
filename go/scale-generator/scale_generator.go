@@ -1,7 +1,7 @@
 package scale
 
 import (
-	"unicode"
+	"strings"
 )
 
 var (
@@ -41,14 +41,7 @@ type Tonic string
 
 // Pitch returns the tonic as a pitch.
 func (t Tonic) Pitch() string {
-	var p string
-	for i, r := range t {
-		if i == 0 {
-			r = unicode.ToUpper(r)
-		}
-		p += string(r)
-	}
-	return p
+	return strings.ToUpper(string(t[:1])) + string(t[1:])
 }
 
 // ChromaticScale returns the chromatic scale starting at tonic.
