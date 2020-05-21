@@ -14,21 +14,15 @@ var (
 // If no interval pattern is given the default is 12 half steps.
 func Scale(tonic, interval string) []string {
 	t := Tonic(tonic)
-	startingPitch := t.Pitch()
-	scale := t.Scale()
 	if interval == "" {
 		interval = "mmmmmmmmmmmm"
 	}
 
 	s := make([]string, len(interval))
+	c := t.ChromaticScale()
 	var j int
-	for i, n := range scale {
-		if startingPitch == n {
-			j = i
-		}
-	}
 	for i, step := range interval {
-		s[i] = scale[j%12]
+		s[i] = c[j]
 
 		switch step {
 		case 'm':
@@ -57,12 +51,20 @@ func (t Tonic) Pitch() string {
 	return p
 }
 
-// Scale returns the chromatic scale for the tonic.
-func (t Tonic) Scale() []string {
+// ChromaticScale returns the chromatic scale starting at tonic.
+func (t Tonic) ChromaticScale() []string {
 	s := scaleWithSharps
 	switch t {
 	case "F", "Bb", "Eb", "Db", "d", "g", "bb":
 		s = scaleWithFlats
 	}
-	return s
+
+	var start int
+	for i, p := range s {
+		if t.Pitch() == p {
+			start = i
+		}
+	}
+
+	return append(s[start:], s[:start]...)
 }
