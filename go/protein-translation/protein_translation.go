@@ -2,7 +2,7 @@ package protein
 
 const (
 	// ErrStop indicates a STOP codon.
-	ErrStop = err("stop")
+	ErrStop = err("STOP codon")
 	// ErrInvalidBase indicates a codon without a corresponding amino acid.
 	ErrInvalidBase = err("invalid base")
 )
@@ -40,18 +40,19 @@ func FromCodon(codon string) (string, error) {
 // sequence, or an error. In the case of an error, the amino acids identified
 // before the error is returned.
 func FromRNA(rna string) ([]string, error) {
-	p := make([]string, len(rna)/3)
+	p := make([]string, 0, len(rna)/3)
+
 	for i := 0; i < len(rna); i += 3 {
 		base := rna[i : i+3]
 		c, err := FromCodon(base)
+		if err == ErrStop {
+			break
+		}
 		if err != nil {
-			p = p[:i/3]
-			if err == ErrStop {
-				break
-			}
 			return p, err
 		}
-		p[i/3] = c
+		p = append(p, c)
 	}
+
 	return p, nil
 }
