@@ -50,9 +50,8 @@ func RunLengthDecode(s string) string {
 				panic(err)
 			}
 		}
-		for l > 0 {
-			b.WriteRune(rune(s[j]))
-			l--
+		for ; l > 0; l-- {
+			b.WriteByte(s[j])
 		}
 
 		i = j + 1
