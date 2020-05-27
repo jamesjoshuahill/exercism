@@ -3,6 +3,7 @@ package encode
 import (
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 // RunLengthEncode compresses a string using run-length encoding.
@@ -35,26 +36,26 @@ func writeRune(b *strings.Builder, count int, r rune) {
 // RunLengthDecode decompresses a run-length encoded string.
 func RunLengthDecode(s string) string {
 	var b strings.Builder
-	var runLength []rune
-	for _, r := range s {
-		switch r {
-		case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-			runLength = append(runLength, r)
-		default:
-			l := 1
-			if len(runLength) > 0 {
-				var err error
-				l, err = strconv.Atoi(string(runLength))
-				if err != nil {
-					panic(err)
-				}
-				runLength = nil
-			}
-			for l > 0 {
-				b.WriteRune(r)
-				l--
+	for i := 0; i < len(s); {
+		j := i
+		for unicode.IsNumber(rune(s[j])) {
+			j++
+		}
+
+		l := 1
+		if j > i {
+			var err error
+			l, err = strconv.Atoi(s[i:j])
+			if err != nil {
+				panic(err)
 			}
 		}
+		for l > 0 {
+			b.WriteRune(rune(s[j]))
+			l--
+		}
+
+		i = j + 1
 	}
 	return b.String()
 }
