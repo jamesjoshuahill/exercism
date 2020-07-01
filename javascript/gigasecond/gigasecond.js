@@ -3,7 +3,7 @@
 // convenience to get you started writing code faster.
 //
 
-const trillion = Math.pow(10, 9)
+const trillion = 1e9;
 
 export const gigasecond = (moment) => {
   const newTime = moment.getTime() + trillion * 1000
