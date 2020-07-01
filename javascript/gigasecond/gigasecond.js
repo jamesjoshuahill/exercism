@@ -6,6 +6,6 @@
 const trillion = 1e9;
 
 export const gigasecond = (moment) => {
-  const newTime = moment.getTime() + trillion * 1000
-  return new Date(newTime)
+  const newTime = moment.getTime() + trillion * 1000;
+  return new Date(newTime);
 };
